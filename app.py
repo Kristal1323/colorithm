@@ -4,6 +4,8 @@ from utils.ai_palette import generate_ai_palette
 from utils.extract_palette import extract_palette_from_image
 from utils.color_utils import hex_to_rgb
 from utils.display_palette import display_palette 
+from utils.download_utils import get_png_bytes, get_json_bytes
+
 
 st.set_page_config(page_title="Colorithm", page_icon="🎨", layout="centered")
 
@@ -54,8 +56,30 @@ if st.button("🎨 Generate Final Palette"):
     if palette:
         st.subheader("🎨 Final AI-Generated Palette")
         display_palette(palette)
+
+        # ---------- DOWNLOAD SECTION ----------
+        st.markdown("### 💾 Download Your Palette")
+        col_img, col_json = st.columns(2)
+
+        with col_img:
+            st.download_button(
+                label="🖼️ Download as PNG",
+                data=get_png_bytes(palette),
+                file_name="color_palette.png",
+                mime="image/png"
+            )
+
+        with col_json:
+            st.download_button(
+                label="📄 Download as JSON",
+                data=get_json_bytes(palette),
+                file_name="color_palette.json",
+                mime="application/json"
+            )
+
         st.markdown("---")
-        st.caption("💡 Try uploading photos of interiors, outfits, or art to explore beautiful, AI-enhanced color harmony!")
+        st.caption("💡 Save your palette for outfits, interiors, or art inspiration!")
+
 
 # Footer
 st.markdown(
